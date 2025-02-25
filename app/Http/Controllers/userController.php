@@ -38,16 +38,16 @@ class userController extends Controller
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.'
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
         }
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret_key'),
-            'response' => $request->input('g-recaptcha-response'),
+            'secret'   => env('RECAPTCHA_SECRET_KEY'),
+            'response' => request('g-recaptcha-response'),
+            'remoteip' => request()->ip(),
         ]);
-    
         $responseBody = $response->json();
-    
-        if ($responseBody['success']!=true) {
+        // Verificar si la validación falló
+        if (!$responseBody['success']) {
             return back()->withErrors(['g-recaptcha-response' => 'Error al validar el reCAPTCHA.']);
         }
         // Generar código de 4 dígitos
@@ -74,6 +74,16 @@ class userController extends Controller
         $validator = Validator::make($request->all(),[
             'code' => 'required|max:6',
         ]);
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => env('RECAPTCHA_SECRET_KEY'),
+            'response' => request('g-recaptcha-response'),
+            'remoteip' => request()->ip(),
+        ]);
+        $responseBody = $response->json();
+        // Verificar si la validación falló
+        if (!$responseBody['success']) {
+            return back()->withErrors(['g-recaptcha-response' => 'Error al validar el reCAPTCHA.']);
+        }
         $user = User::find($id);
         $code = codigo::where('user_id', $id)->first();
         if ($request->code != $code->codigo) {
@@ -95,11 +105,15 @@ class userController extends Controller
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             
         ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
          $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret'   => env('RECAPTCHA_SECRET_KEY'),
             'response' => request('g-recaptcha-response'),
             'remoteip' => request()->ip(),
         ]);
+
         $responseBody = $response->json();
         // Verificar si la validación falló
         if (!$responseBody['success']) {
@@ -136,6 +150,16 @@ class userController extends Controller
         $validator = Validator::make($request->all(),[
             'code' => 'required|max:6',
         ]);
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => env('RECAPTCHA_SECRET_KEY'),
+            'response' => request('g-recaptcha-response'),
+            'remoteip' => request()->ip(),
+        ]);
+        $responseBody = $response->json();
+        // Verificar si la validación falló
+        if (!$responseBody['success']) {
+            return back()->withErrors(['g-recaptcha-response' => 'Error al validar el reCAPTCHA.']);
+        }
         $code = Codigo::where('user_id', $id)
               ->where('codigo', $request->code) // Aquí agregas la condición AND
               ->first();

@@ -17,27 +17,27 @@
       <!-- Login Form -->
       <form method="POST" action="{{ route('login') }}" novalidate>
         @csrf
-        <input type="text" id="email" class="fadeIn second @error('email') is-invalid @enderror" value="{{ old('email') }}" name="email" placeholder="Correo">
+        <input type="text" id="email" class="fadeIn second @error('email') is-invalid @enderror" value="{{ old('email') }}" name="email" placeholder="Correo" required>
             @error('email')
                 <span class="error-message">{{ $message }}</span>
             @enderror
-            <input type="password" id="password" class="fadeIn third @error('password') is-invalid @enderror" value="{{ old('password') }}" name="password" placeholder="Contraseña">
+            <input type="password" id="password" class="fadeIn third @error('password') is-invalid @enderror" value="{{ old('password') }}" name="password" placeholder="Contraseña" required>
             @error('password')
                 <span class="error-message">{{ $message }}</span>
             @enderror
-            <div class="form-group">
-              <label for="captcha">Verificación de seguridad</label>
-              <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-              @if ($errors->has('g-recaptcha-response'))
-                <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
-              @endif
-            </div>
-            <input type="submit" class="fadeIn fourth" value="Registrar" id="submitButton">
+                <div class="form-group">
+                  <label for="captcha">Verificación de seguridad</label>
+                  <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                  @if ($errors->has('g-recaptcha-response'))
+                    <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
+                  @endif
+                </div>
+            <input type="submit" class="fadeIn fourth" value="Entrar" id="submitButton">
       </form>
-  
+      No tienes una cuenta? <a href="{{ route('register') }}">Regístrate</a>
+      </div>
     </div>
   </div>
-    </div>
 </div>
 <script src="https://www.google.com/recaptcha/api.js?render=6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB"></script>
 <script>

@@ -45,6 +45,7 @@
                     
                     <input type="submit" class="fadeIn fourth" value="Registrar" id="submitButton">
                 </form>
+                ¿Ya tienes una cuenta? <a href="{{ route('login') }}">Inicia sesión</a>
             </div>
         </div>
     </div>

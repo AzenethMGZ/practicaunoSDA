@@ -15,11 +15,25 @@
       <form method="POST" action="{{ route('verifycode', ['id' => $id]) }}">
     @csrf
     <input type="text" id="codi" name="code" class="fadeIn second" value="{{ old('code') }}" maxlength="6" placeholder="Código" />
+    <div class="form-group">
+      <label for="captcha">Verificación de seguridad</label>
+      <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+      @if ($errors->has('g-recaptcha-response'))
+        <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
+      @endif
+    </div>
     <input type="submit" class="fadeIn fourth" value="Enviar">
 </form>
     </div>
 </div>
-
+<script src="https://www.google.com/recaptcha/api.js?render=6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB"></script>
+<script>
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB', {action: 'submit'}).then(function(token) {
+            document.getElementById('g-recaptcha-response').value = token;
+        });
+    });
+</script>
 <style>
     #codi {
         width: 300px; 
