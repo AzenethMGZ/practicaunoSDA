@@ -36,11 +36,10 @@
                     <span id="password-error" class="error-message"></span>
                     <!-- Confirmar reCAPTCHA -->
                     <div class="form-group">
-                      <label for="captcha">Verificación de seguridad</label>
-                      <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                      @if ($errors->has('g-recaptcha-response'))
-                        <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
-                      @endif
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                @if ($errors->has('g-recaptcha-response'))
+                <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
+                @endif
                     </div>
                     
                     <input type="submit" class="fadeIn fourth" value="Registrar" id="submitButton">
@@ -50,13 +49,8 @@
         </div>
     </div>
 </div>
-<script src="https://www.google.com/recaptcha/api.js?render=6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB"></script>
 <script>
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB', {action: 'submit'}).then(function(token) {
-            document.getElementById('g-recaptcha-response').value = token;
-        });
-    });
+    
 document.getElementById("confirm-password").addEventListener("input", function() {
     let password = document.getElementById("password").value;
     let confirmPassword = this.value;

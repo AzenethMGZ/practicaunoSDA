@@ -14,6 +14,7 @@ use App\Http\Controllers\vistasController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::middleware('guest')->group(function() {
     Route::get('/login', [vistasController::class, 'loginView'])->name('login.show');
     Route::get('/register', [vistasController::class, 'registerView']);
@@ -35,5 +36,5 @@ Route::middleware('auth')->group(function() {
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login.show');
 });

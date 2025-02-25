@@ -3,6 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
+
 <div class="container mt-5">
     <div class="row justify-content-center">
     <div class="wrapper fadeInDown">
@@ -25,13 +26,10 @@
             @error('password')
                 <span class="error-message">{{ $message }}</span>
             @enderror
-                <div class="form-group">
-                  <label for="captcha">Verificación de seguridad</label>
-                  <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                  @if ($errors->has('g-recaptcha-response'))
-                    <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
-                  @endif
-                </div>
+            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                @if ($errors->has('g-recaptcha-response'))
+                <span style="color: red;">{{ $errors->first('g-recaptcha-response') }}</span>
+                @endif
             <input type="submit" class="fadeIn fourth" value="Entrar" id="submitButton">
       </form>
       No tienes una cuenta? <a href="{{ route('register') }}">Regístrate</a>
@@ -39,13 +37,6 @@
     </div>
   </div>
 </div>
-<script src="https://www.google.com/recaptcha/api.js?render=6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB"></script>
-<script>
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6LeaSc0qAAAAAK-nmfnXhsGu4QgUyh3Abg_X9ZEB', {action: 'submit'}).then(function(token) {
-            document.getElementById('g-recaptcha-response').value = token;
-        });
-    });
-</script>
+
 
 @endsection
